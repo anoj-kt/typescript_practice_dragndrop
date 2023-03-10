@@ -120,9 +120,9 @@ class ProjectList {
 
   private renderProjects() {
     const listEl = document.getElementById(`${this.type}-projects-list`)! as HTMLUListElement;
-    for(const project of this.assignedProjects) {
+    for(const projectItem of this.assignedProjects) {
         const listItem = document.createElement('li');
-        listItem.textContent = project.title;
+        listItem.textContent = projectItem.title;
         listEl.appendChild(listItem);
     }
   }
@@ -131,7 +131,7 @@ class ProjectList {
     this.element.querySelector(
       'h2'
     )!.textContent = `${this.type.toUpperCase()} PROJECTS`;
-    this.element.querySelector('ul')!.id = `${this.type}-projects`;
+    this.element.querySelector('ul')!.id = `${this.type}-projects-list`;
   }
 
   private attach() {
