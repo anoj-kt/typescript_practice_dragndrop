@@ -8,8 +8,8 @@ function Autobind(_: any, _2: string, descriptor: PropertyDescriptor) {
       return boundFn;
     },
   };
-  console.log (originalMethod)
-  console.log (adjustedMethod)
+  console.log(originalMethod);
+  console.log(adjustedMethod);
   return adjustedMethod;
 }
 
@@ -49,10 +49,26 @@ class ProjectInput {
     this.attach();
   }
 
+  private gatherInput(): [string, string, number] | void {
+    const titleValue = this.titleInputElement.value;
+    const descriptionValue = this.descriptionInputElement.value;
+    const peopleValue = this.peopleInputElement.value;
+
+    return [titleValue, descriptionValue, +peopleValue];
+  }
+
+  private clearInputs() {
+    this.titleInputElement.value = '';
+    this.descriptionInputElement.value = '';
+    this.peopleInputElement.value = '';
+  }
+
   @Autobind
   private submitHandler(event: Event) {
     event.preventDefault();
-    console.log(this.titleInputElement.value);
+    const userInput = this.gatherInput();
+    console.log(userInput);
+    this.clearInputs();
   }
 
   private configure() {
