@@ -72,11 +72,22 @@ class Project {
 }
 
 // Project State Management
-type Listener = (items: Project[]) => void;
-class ProjectState {
+type Listener<T> = (items: T[]) => void;
+
+class State<T> {
+  protected listeners: Listener<T>[] = [];
+
+  addListener(listenerFn: Listener<T>) {
+    this.listeners.push(listenerFn);
+  }
+}
+class ProjectState extends State<Project>{
   private static instance: ProjectState;
   private projects: Project[] = [];
-  private listeners: Listener[] = [];
+
+  private constructor() {
+    super();
+  }
 
   static getInstance() {
     if (this.instance) {
@@ -84,10 +95,6 @@ class ProjectState {
     }
     this.instance = new ProjectState();
     return this.instance;
-  }
-
-  addListener(listenerFn: Listener) {
-    this.listeners.push(listenerFn);
   }
 
   addProject(title: string, description: string, peopleNo: number) {
@@ -103,7 +110,7 @@ class ProjectState {
       listenerFn(this.projects.slice());
     }
   }
-}
+};
 
 const projectState = ProjectState.getInstance();
 
@@ -212,7 +219,7 @@ class ProjectInput extends Component<HTMLDivElement, HTMLFormElement> {
     this.configure();
   }
 
-  renderContent() {};
+  renderContent() {}
 
   configure() {
     this.element.addEventListener('submit', this.submitHandler);
@@ -267,7 +274,7 @@ class ProjectInput extends Component<HTMLDivElement, HTMLFormElement> {
       this.clearInputs();
     }
   }
-};
+}
 
 const prj = new ProjectInput();
 const active = new ProjectList('active');
