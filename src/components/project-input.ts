@@ -1,3 +1,8 @@
+import Component from './base-component';
+import * as Validation from '../util/validation';
+import { Autobind } from '../decorators/autobind';
+import { projectState } from '../state/project-state';
+
 export class ProjectInput extends Component<HTMLDivElement, HTMLFormElement> {
     titleInputElement: HTMLInputElement;
     descriptionInputElement: HTMLInputElement;
@@ -31,16 +36,16 @@ export class ProjectInput extends Component<HTMLDivElement, HTMLFormElement> {
       const descriptionValue = this.descriptionInputElement.value;
       const peopleValue = this.peopleInputElement.value;
   
-      const titleValidator: Validatable = {
+      const titleValidator: Validation.Validatable = {
         value: titleValue,
         required: true,
       };
-      const descriptorValidator: Validatable = {
+      const descriptorValidator: Validation.Validatable = {
         value: descriptionValue,
         required: true,
         minLength: 5,
       };
-      const peopleValidator: Validatable = {
+      const peopleValidator: Validation.Validatable = {
         value: peopleValue,
         required: true,
         min: 1,
@@ -48,9 +53,9 @@ export class ProjectInput extends Component<HTMLDivElement, HTMLFormElement> {
       };
   
       if (
-        validate(titleValidator) &&
-        validate(descriptorValidator) &&
-        validate(peopleValidator)
+        Validation.validate(titleValidator) &&
+        Validation.validate(descriptorValidator) &&
+        Validation.validate(peopleValidator)
       ) {
         return [titleValue, descriptionValue, +peopleValue];
       } else {
